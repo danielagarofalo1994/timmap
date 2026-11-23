@@ -51,6 +51,7 @@ section{margin-bottom:64px}
 .steps b{display:block;font-weight:600;margin-bottom:2px}
 .steps span{color:var(--text-2);font-size:14px}
 .sub{color:var(--text-2);margin:0}
+.cta{text-align:center}
 .form-box{background:var(--mint);border:1px solid var(--mint-border);border-radius:var(--r);padding:24px;margin-top:18px}
 .placeholder{border:1px dashed var(--mint-border);border-radius:10px;padding:40px 20px;text-align:center;color:var(--text-2);font-size:15px;background:#fff}
 .moments{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin:18px 0 0}
@@ -64,7 +65,8 @@ section{margin-bottom:64px}
 .note{font-size:14px;color:var(--text-2);margin:16px 0 0}
 footer{background:var(--ink);color:var(--grey-light);padding:28px 0 40px;font-size:13px}
 footer a{color:#fff}
-@media (max-width:520px){.hero{padding-top:32px}.form-box{padding:14px}}
+@media (max-width:520px){.hero{padding-top:32px}.cta{text-align:center}
+.form-box{padding:14px}}
 </style>
 </head>
 <body>
@@ -84,7 +86,7 @@ footer a{color:#fff}
       <li>Circa 5 minuti</li>
       <li>Questionario prevalentemente a scelta multipla</li>
     </ul>
-    <a class="btn" href="#questionario">Partecipa alla ricerca</a>
+    <a class="btn" href="https://tally.so/r/8NZ6qk">Partecipa alla ricerca</a>
   </section>
 
   <section>
@@ -130,26 +132,11 @@ footer a{color:#fff}
     </ol>
   </section>
 
-  <section id="questionario">
-    <h2>Il questionario</h2>
-    <div class="form-box">
-      <!-- MODULO TALLY: sostituisci INSERISCI_ID_TALLY con l'ID del tuo modulo (es. wAbC12) -->
-      <iframe src="https://tally.so/embed/8NZ6qk?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" data-tally-src="https://tally.so/embed/8NZ6qk?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" width="100%" height="900" frameborder="0" marginheight="0" marginwidth="0" title="Ricerca TIMMAP"></iframe>
-      <div class="placeholder" id="ph">Qui comparirà il questionario.</div>
-    </div>
+  <section class="cta">
+    <a class="btn" href="https://tally.so/r/8NZ6qk">Partecipa alla ricerca</a>
   </section>
 </main>
 
 <footer><div class="wrap">TIMMAP · Ricerca in corso · <a href="privacy.html">Informativa privacy</a></div></footer>
-
-<script>
-(function(){
-  document.getElementById("ph").style.display = "none";
-  var s = document.createElement("script");
-  s.src = "https://tally.so/widgets/embed.js";
-  s.onload = function(){ if (typeof Tally !== "undefined") Tally.loadEmbeds(); };
-  document.body.appendChild(s);
-})();
-</script>
 </body>
 </html>
