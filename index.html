@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TIMMAP — Ricerca sui cambiamenti in azienda</title>
+<meta name="description" content="Una ricerca su come le aziende affrontano riorganizzazioni, introduzione di AI, acquisizioni, cambi di guida e nuove aperture.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='5 5 110 110'%3E%3Crect x='10' y='10' width='100' height='100' rx='14' fill='%23fff' stroke='%23132330' stroke-width='7'/%3E%3Ccircle cx='36' cy='78' r='10' fill='%231F6F78'/%3E%3Ccircle cx='52' cy='40' r='10' fill='%231F6F78'/%3E%3Ccircle cx='74' cy='72' r='10' fill='%23D9822B'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Palette TIMMAP */
+:root{
+  --ink:#132330;        /* Inchiostro */
+  --petrol:#1F6F78;     /* Verde petrolio */
+  --orange:#D9822B;     /* Arancio */
+  --text-2:#566673;     /* Grigio testo */
+  --grey-light:#B8C4CC; /* Grigio chiaro */
+  --line:#D5DCE0;
+  --bg:#EEF2F4;         /* Fondo */
+  --band:#F1F4F2;       /* Fascia */
+  --mint:#F0F9F6;       /* Menta */
+  --mint-border:#C9E6DB;/* Menta bordo */
+  --peach:#FDEEDA;      /* Pesca */
+  --r:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "IBM Plex Sans",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:760px;margin:0 auto;padding:0 22px}
+header{padding:20px 0;background:#fff;border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo svg{display:block}
+.hero{padding:56px 0 40px}
+.eyebrow{display:inline-block;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);background:var(--peach);border-radius:999px;padding:4px 12px;margin:0 0 18px}
+h1{font:700 clamp(32px,5.6vw,48px)/1.1 "IBM Plex Sans",Arial,sans-serif;letter-spacing:-.02em;margin:0 0 20px}
+h2{font:700 26px/1.2 "IBM Plex Sans",Arial,sans-serif;letter-spacing:-.01em;margin:0 0 10px}
+.lead{font-size:18px;color:var(--text-2);max-width:620px;margin:0 0 16px}
+.lead + .meta{margin-top:24px}
+.meta{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--text-2);font-size:14px;margin:0 0 32px;padding:0;list-style:none}
+.meta li::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--orange);margin-right:8px;vertical-align:middle}
+.btn{display:inline-block;border-radius:999px;background:var(--petrol);color:#fff;font:600 16px "IBM Plex Sans",Arial,sans-serif;padding:14px 26px;text-decoration:none;transition:background .15s}
+.btn:hover{background:var(--ink)}
+section{margin-bottom:64px}
+.who{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;padding:0;margin:18px 0 0;list-style:none}
+.who li{background:#fff;border:1px solid var(--line);border-left:4px solid var(--petrol);border-radius:10px;padding:12px 14px;font-size:15px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:18px 0 0;padding:0;list-style:none;counter-reset:s}
+.steps li{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px 16px 18px;font-size:15px;counter-increment:s}
+.steps li::before{content:counter(s,decimal-leading-zero);display:block;font:700 13px "IBM Plex Sans",Arial,sans-serif;color:var(--orange);margin-bottom:6px}
+.steps b{display:block;font-weight:600;margin-bottom:2px}
+.steps span{color:var(--text-2);font-size:14px}
+.sub{color:var(--text-2);margin:0}
+.form-box{background:var(--mint);border:1px solid var(--mint-border);border-radius:var(--r);padding:24px;margin-top:18px}
+.placeholder{border:1px dashed var(--mint-border);border-radius:10px;padding:40px 20px;text-align:center;color:var(--text-2);font-size:15px;background:#fff}
+.moments{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin:18px 0 0}
+.moment{background:#fff;border:1px solid var(--line);border-top:4px solid var(--petrol);border-radius:var(--r);padding:18px}
+.m-tag{font-weight:700;font-size:16px;margin:0 0 10px}
+.m-q{font-size:15px;color:var(--text-2);margin:0}
+.about-box{background:var(--band);border:1px solid var(--line);border-left:4px solid var(--orange);border-radius:var(--r);padding:20px 22px}
+.about-k{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);margin:0 0 8px}
+.about-box p{margin:0 0 10px;font-size:15px}
+.about-box p:last-child{margin:0}
+.note{font-size:14px;color:var(--text-2);margin:16px 0 0}
+footer{background:var(--ink);color:var(--grey-light);padding:28px 0 40px;font-size:13px}
+footer a{color:#fff}
+@media (max-width:520px){.hero{padding-top:32px}.form-box{padding:14px}}
+</style>
+</head>
+<body>
+
+<header><div class="wrap"><a class="logo" href="#" aria-label="TIMMAP">
+  <svg width="34" height="34" viewBox="5 5 110 110" aria-hidden="true"><rect x="10" y="10" width="100" height="100" rx="14" fill="#fff" stroke="#132330" stroke-width="6"/><line x1="60" y1="14" x2="60" y2="106" stroke="#132330" stroke-width="2.5" stroke-dasharray="4 5" opacity=".45"/><line x1="14" y1="60" x2="106" y2="60" stroke="#132330" stroke-width="2.5" stroke-dasharray="4 5" opacity=".45"/><circle cx="36" cy="78" r="9" fill="#1F6F78"/><circle cx="52" cy="40" r="9" fill="#1F6F78"/><circle cx="74" cy="72" r="9" fill="#D9822B"/><path d="M80 66 L92 34" stroke="#D9822B" stroke-width="5" stroke-dasharray="6 5" fill="none" stroke-linecap="round"/><path d="M85 34 L93 30 L95 39" stroke="#D9822B" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <svg height="17" viewBox="0 -31.5 183 32" aria-hidden="true"><path d="M10.032 0.0V-25.52H1.056V-30.799999999999997H24.816V-25.52H15.84V0.0Z M31.416 0.0V-30.799999999999997H37.224000000000004V0.0Z M45.672 0.0V-30.799999999999997H56.452L61.775999999999996 -3.96H62.568L67.892 -30.799999999999997H78.672V0.0H73.03999999999999V-26.532H72.24799999999999L66.968 0.0H57.376L52.096000000000004 -26.532H51.304V0.0Z M87.12 0.0V-30.799999999999997H97.9L103.224 -3.96H104.016L109.34 -30.799999999999997H120.12V0.0H114.488V-26.532H113.696L108.41600000000001 0.0H98.82400000000001L93.54400000000001 -26.532H92.75200000000001V0.0Z M126.45600000000002 0.0 134.55200000000002 -30.799999999999997H144.67200000000003L152.76800000000003 0.0H146.78400000000002L145.11200000000002 -6.776H134.11200000000002L132.44000000000003 0.0ZM135.47600000000003 -12.144H143.74800000000002L140.008 -27.148H139.216Z M159.104 0.0V-30.799999999999997H171.776Q174.68 -30.799999999999997 176.90200000000002 -29.634Q179.12400000000002 -28.468 180.37800000000001 -26.356Q181.632 -24.244 181.632 -21.34V-20.724Q181.632 -17.863999999999997 180.334 -15.729999999999999Q179.036 -13.596 176.81400000000002 -12.43Q174.592 -11.264 171.776 -11.264H164.912V0.0ZM164.912 -16.544H171.204Q173.27200000000002 -16.544 174.548 -17.688Q175.824 -18.831999999999997 175.824 -20.811999999999998V-21.252Q175.824 -23.232 174.548 -24.375999999999998Q173.27200000000002 -25.52 171.204 -25.52H164.912Z" fill="#132330"/></svg>
+</a></div></header>
+
+<main class="wrap">
+  <section class="hero">
+    <p class="eyebrow">Ricerca · aziende in cambiamento</p>
+    <h1>Quando un'azienda cambia, che cosa determina se gli obiettivi vengono raggiunti?</h1>
+    <p class="lead">Stiamo raccogliendo l'esperienza di chi ha guidato o seguito da vicino un cambiamento in azienda, sia riuscito sia difficile. Vogliamo capire che cosa ha aiutato o ostacolato il raggiungimento degli obiettivi, come è stato affrontato e che cosa sarebbe stato utile sapere prima di decidere.</p>
+    <p class="lead">La tua esperienza contribuirà a capire quali difficoltà organizzative richiedono davvero nuove soluzioni e quali vengono già affrontate efficacemente dalle aziende.</p>
+    <ul class="meta">
+      <li>Circa 5 minuti</li>
+      <li>Questionario prevalentemente a scelta multipla</li>
+      <li>Domande aperte facoltative</li>
+      <li>Nessun nome o informazione riservata</li>
+    </ul>
+    <a class="btn" href="#questionario">Partecipa alla ricerca</a>
+  </section>
+
+  <section>
+    <h2>A chi è rivolta</h2>
+    <p class="sub">La ricerca si rivolge soprattutto a chi ha guidato o seguito direttamente uno di questi cambiamenti negli ultimi 24 mesi.</p>
+    <div class="moments">
+      <article class="moment">
+        <p class="m-tag">Riorganizzazione, AI o nuovo progetto</p>
+        <p class="m-q">Hai seguito un cambiamento di processi, strumenti, responsabilità o modalità di lavoro?</p>
+      </article>
+      <article class="moment">
+        <p class="m-tag">Dopo un'acquisizione</p>
+        <p class="m-q">Hai partecipato all'integrazione di attività, persone o funzioni di aziende diverse?</p>
+      </article>
+      <article class="moment">
+        <p class="m-tag">Una nuova guida</p>
+        <p class="m-q">Hai vissuto un cambio di leadership o un passaggio generazionale?</p>
+      </article>
+      <article class="moment">
+        <p class="m-tag">Nuove aperture e lanci</p>
+        <p class="m-q">Hai seguito l'avvio di una sede, un'attività o un nuovo progetto operativo?</p>
+      </article>
+    </div>
+    <p class="note">Hai vissuto un cambiamento diverso? Il questionario ha spazio anche per quello.</p>
+  </section>
+
+  <section class="about">
+    <div class="about-box">
+      <p class="about-k">Perché questa ricerca</p>
+      <p>Stiamo sviluppando <b>TIMMAP</b>, un metodo di analisi organizzativa, e vogliamo verificare quanto risponda alle esigenze reali delle aziende.</p>
+      <p>Per questo ci interessa conoscere la tua esperienza: quali difficoltà hai incontrato, come sono state affrontate e quali informazioni sarebbero state utili per prendere decisioni.</p>
+      <p>Nella parte finale del questionario ti presenteremo brevemente TIMMAP e ti chiederemo di valutarne la possibile utilità.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Cosa ti chiediamo</h2>
+    <ol class="steps">
+      <li><b>Il tuo contesto</b><span>Ruolo, azienda e cambiamenti vissuti</span></li>
+      <li><b>Obiettivi</b><span>Cosa volevate ottenere e cosa l'ha ostacolato</span></li>
+      <li><b>Come avete agito</b><span>Interventi, risorse e decisioni</span></li>
+      <li><b>Un parere</b><span>Sulla possibile utilità di TIMMAP</span></li>
+    </ol>
+  </section>
+
+  <section id="questionario">
+    <h2>Il questionario</h2>
+    <div class="form-box">
+      <!-- MODULO TALLY: sostituisci INSERISCI_ID_TALLY con l'ID del tuo modulo (es. wAbC12) -->
+      <iframe src="https://tally.so/embed/8NZ6qk?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" data-tally-src="https://tally.so/embed/8NZ6qk?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" width="100%" height="900" frameborder="0" marginheight="0" marginwidth="0" title="Ricerca TIMMAP"></iframe>
+      <div class="placeholder" id="ph">Qui comparirà il questionario.</div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap">TIMMAP · Ricerca in corso · <a href="privacy.html">Informativa privacy</a></div></footer>
+
+<script>
+(function(){
+  document.getElementById("ph").style.display = "none";
+  var s = document.createElement("script");
+  s.src = "https://tally.so/widgets/embed.js";
+  s.onload = function(){ if (typeof Tally !== "undefined") Tally.loadEmbeds(); };
+  document.body.appendChild(s);
+})();
+</script>
+</body>
+</html>
