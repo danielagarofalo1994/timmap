@@ -3,139 +3,293 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TIMMAP — Ricerca sulle decisioni sui team</title>
-<meta name="description" content="Una ricerca su come le aziende prendono le decisioni sui team: inserimenti, nomine, riorganizzazioni, uscite.">
+<title>TIMMAP — Su che cosa si basano le decisioni sui team?</title>
+<meta name="description" content="Una ricerca su come le aziende prendono le decisioni sui team: inserimenti, nomine, riorganizzazioni, sostituzioni.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='5 5 110 110'%3E%3Crect x='10' y='10' width='100' height='100' rx='14' fill='%23fff' stroke='%23132330' stroke-width='7'/%3E%3Ccircle cx='36' cy='78' r='10' fill='%231F6F78'/%3E%3Ccircle cx='52' cy='40' r='10' fill='%231F6F78'/%3E%3Ccircle cx='74' cy='72' r='10' fill='%23D9822B'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* Palette TIMMAP */
 :root{
-  --ink:#132330;        /* Inchiostro */
-  --petrol:#1F6F78;     /* Verde petrolio */
-  --orange:#D9822B;     /* Arancio */
-  --text-2:#566673;     /* Grigio testo */
-  --grey-light:#B8C4CC; /* Grigio chiaro */
-  --line:#D5DCE0;
-  --bg:#EEF2F4;         /* Fondo */
-  --band:#F1F4F2;       /* Fascia */
-  --mint:#F0F9F6;       /* Menta */
-  --mint-border:#C9E6DB;/* Menta bordo */
-  --peach:#FDEEDA;      /* Pesca */
-  --r:14px;
+  --ink:#132330; --petrol:#1F6F78; --orange:#D9822B; --aqua:#6FC1C8; --text:#566673; --grey:#B8C4CC;
+  --line:#D5DCE0; --bg:#EEF2F4; --band:#F1F4F2; --mint:#F0F9F6; --mint-b:#C9E6DB; --peach:#FDEEDA;
+  --orange-dark:#F0A257; --r:12px;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "IBM Plex Sans",Arial,sans-serif;-webkit-font-smoothing:antialiased}
-.wrap{max-width:760px;margin:0 auto;padding:0 22px}
-header{padding:20px 0;background:#fff;border-bottom:1px solid var(--line)}
+body{margin:0;background:#fff;color:var(--ink);font:17px/1.65 "IBM Plex Sans",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{width:min(1120px,calc(100% - 48px));margin:0 auto}
+h1,h2,h3{margin:0;letter-spacing:-.02em}
+.label{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--petrol)}
+.label::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--orange)}
+.btn{display:inline-flex;align-items:center;gap:12px;background:var(--petrol);color:#fff;text-decoration:none;font-weight:600;font-size:17px;padding:15px 24px;border-radius:999px;transition:background .15s,transform .15s}
+.btn:hover{background:var(--ink);transform:translateY(-1px)}
+.btn.small{font-size:15px;padding:10px 18px}
+a:focus-visible,summary:focus-visible{outline:2px solid var(--orange);outline-offset:4px}
+
+/* Header */
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+.head{height:76px;display:flex;align-items:center;gap:32px}
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
-.logo svg{display:block}
-.hero{padding:56px 0 40px}
-.eyebrow{display:inline-block;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);background:var(--peach);border-radius:999px;padding:4px 12px;margin:0 0 18px}
-h1{font:700 clamp(32px,5.6vw,48px)/1.1 "IBM Plex Sans",Arial,sans-serif;letter-spacing:-.02em;margin:0 0 20px}
-h2{font:700 26px/1.2 "IBM Plex Sans",Arial,sans-serif;letter-spacing:-.01em;margin:0 0 10px}
-.lead{font-size:18px;color:var(--text-2);max-width:620px;margin:0 0 16px}
-.lead + .meta{margin-top:24px}
-.meta{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--text-2);font-size:14px;margin:0 0 32px;padding:0;list-style:none}
-.meta li::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--orange);margin-right:8px;vertical-align:middle}
-.btn{display:inline-block;border-radius:999px;background:var(--petrol);color:#fff;font:600 16px "IBM Plex Sans",Arial,sans-serif;padding:14px 26px;text-decoration:none;transition:background .15s}
-.btn:hover{background:var(--ink)}
-section{margin-bottom:64px}
-.who{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;padding:0;margin:18px 0 0;list-style:none}
-.who li{background:#fff;border:1px solid var(--line);border-left:4px solid var(--petrol);border-radius:10px;padding:12px 14px;font-size:15px}
-.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:18px 0 0;padding:0;list-style:none;counter-reset:s}
-.steps li{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px 16px 18px;font-size:15px;counter-increment:s}
-.steps li::before{content:counter(s,decimal-leading-zero);display:block;font:700 13px "IBM Plex Sans",Arial,sans-serif;color:var(--orange);margin-bottom:6px}
-.steps b{display:block;font-weight:600;margin-bottom:2px}
-.steps span{color:var(--text-2);font-size:14px}
-.sub{color:var(--text-2);margin:0}
-.cta{text-align:center}
-.form-box{background:var(--mint);border:1px solid var(--mint-border);border-radius:var(--r);padding:24px;margin-top:18px}
-.placeholder{border:1px dashed var(--mint-border);border-radius:10px;padding:40px 20px;text-align:center;color:var(--text-2);font-size:15px;background:#fff}
-.moments{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin:18px 0 0}
-.moment{background:#fff;border:1px solid var(--line);border-top:4px solid var(--petrol);border-radius:var(--r);padding:18px}
-.m-tag{font-weight:700;font-size:16px;margin:0 0 10px}
-.m-q{font-size:15px;color:var(--text-2);margin:0}
-.about-box{background:var(--band);border:1px solid var(--line);border-left:4px solid var(--orange);border-radius:var(--r);padding:20px 22px}
-.about-k{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);margin:0 0 8px}
-.about-box p{margin:0 0 10px;font-size:15px}
-.about-box p:last-child{margin:0}
-.note{font-size:14px;color:var(--text-2);margin:16px 0 0}
-footer{background:var(--ink);color:var(--grey-light);padding:28px 0 40px;font-size:13px}
-footer a{color:#fff}
-@media (max-width:520px){.hero{padding-top:32px}.cta{text-align:center}
-.form-box{padding:14px}}
+nav{margin-left:auto;display:flex;gap:28px}
+nav a{font-size:15px;color:var(--text);text-decoration:none}
+nav a:hover{color:var(--petrol)}
+
+/* Hero */
+.hero{display:grid;grid-template-columns:1.15fr 1fr;gap:56px;align-items:center;padding:72px 0 72px}
+h1{font-size:clamp(38px,4.6vw,56px);line-height:1.1;font-weight:700;margin:20px 0 24px}
+.lead{font-size:19px;color:var(--text);margin:0 0 14px;max-width:540px}
+.lead.sub{font-size:17px}
+.actions{display:flex;align-items:center;gap:22px;margin-top:30px;flex-wrap:wrap}
+.more{font-size:16px;color:var(--text);text-decoration:none}
+.more:hover{color:var(--petrol)}
+.meta{display:flex;gap:20px;flex-wrap:wrap;margin-top:22px;font-size:15px;color:var(--text)}
+.meta span{display:inline-flex;align-items:center;gap:8px}
+.meta svg{color:var(--petrol)}
+
+/* Visual */
+.visual{background:var(--bg);border-radius:var(--r);padding:28px 24px 24px;position:relative;overflow:hidden}
+.visual::before{content:"";position:absolute;inset:0;background-image:radial-gradient(#B8C4CC 1px,transparent 1px);background-size:18px 18px;opacity:.55;pointer-events:none}
+.map{position:relative;height:330px}
+.ring{position:absolute;top:50%;left:50%;width:270px;height:270px;transform:translate(-50%,-50%);border:1.5px dashed var(--grey);border-radius:50%}
+.lines{position:absolute;inset:0;width:100%;height:100%}
+.center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:150px;height:150px;border-radius:50%;background:#fff;border:2px solid var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;z-index:2}
+.center svg{color:var(--orange)}
+.center strong{font-size:17px;line-height:1.25;margin-top:6px}
+.node{position:absolute;z-index:3;display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px 14px;font-size:15px;font-weight:600;box-shadow:0 4px 14px rgba(19,35,48,.06)}
+.node svg{flex:none}
+.n1{left:0;top:30px;color:var(--petrol)}
+.n2{right:0;top:54px;color:var(--petrol)}
+.n3{left:0;bottom:44px;color:var(--petrol)}
+.n4{right:0;bottom:24px;color:var(--orange);border-color:#F3D5C8}
+.caption{position:relative;text-align:center;font-size:17px;font-weight:600;margin:8px 0 0}
+
+/* Roles band */
+.roles{background:var(--band);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.roles .wrap{display:flex;align-items:center;gap:32px;min-height:78px;flex-wrap:wrap;padding:16px 0}
+.roles-t{font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text)}
+.roles ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px 22px;font-size:16px;font-weight:500}
+.roles li{display:flex;align-items:center;gap:22px}
+.roles li+li::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--grey);margin-left:-11px;margin-right:-11px}
+
+/* Sections */
+section.block{padding:84px 0}
+.intro{display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:end;margin-bottom:40px}
+h2{font-size:clamp(28px,3vw,38px);line-height:1.2;font-weight:700;margin-top:16px}
+.intro p{margin:0;font-size:18px;color:var(--text)}
+.aud{display:grid;grid-template-columns:1fr 1fr;column-gap:56px}
+.aud article{display:flex;gap:18px;align-items:flex-start;padding:26px 0;border-top:1px solid var(--line)}
+.aud .ic{flex:none;width:46px;height:46px;border-radius:10px;background:var(--mint);border:1px solid var(--mint-b);color:var(--petrol);display:grid;place-items:center}
+.aud h3{font-size:19px;font-weight:600}
+.aud p{margin:6px 0 0;font-size:16px;color:var(--text)}
+
+/* Why */
+.why{background:var(--ink);color:#fff}
+.why .wrap{display:grid;grid-template-columns:1fr 1fr;gap:72px;padding:80px 0}
+.why .label{color:var(--aqua)}
+.why h2{color:#fff}
+.why h2 span{color:var(--orange-dark)}
+.why p{margin:0 0 18px;font-size:17px;color:#D5DCE0}
+.why p b{color:#fff;font-weight:600}
+.why .note{border-top:1px solid #33495a;padding-top:20px;margin-top:6px;display:flex;gap:12px;color:#fff;font-size:17px}
+.why .note svg{flex:none;color:var(--orange-dark);margin-top:3px}
+
+/* Steps */
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:28px;counter-reset:s}
+.steps li{counter-increment:s;border-top:3px solid var(--petrol);padding-top:18px}
+.steps li:last-child{border-top-color:var(--orange)}
+.steps li::before{content:counter(s,decimal-leading-zero);display:block;font-size:14px;font-weight:700;color:var(--orange);margin-bottom:8px}
+.steps h3{font-size:19px;font-weight:600}
+.steps p{margin:8px 0 0;font-size:16px;color:var(--text)}
+.rnote{margin-top:40px;padding:20px 24px;background:var(--mint);border:1px solid var(--mint-b);border-radius:var(--r);font-size:17px}
+
+/* FAQ */
+.faq{display:grid;grid-template-columns:.8fr 1.2fr;gap:64px;padding-top:0}
+details{border-bottom:1px solid var(--line)}
+details:first-child{border-top:1px solid var(--line)}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 0;font-size:18px;font-weight:600}
+summary::-webkit-details-marker{display:none}
+summary svg{flex:none;color:var(--petrol);transition:transform .2s}
+details[open] summary svg{transform:rotate(45deg)}
+details p{margin:0 0 22px;font-size:17px;color:var(--text);max-width:620px}
+
+/* Final */
+.final{padding-bottom:84px}
+.final-box{background:var(--bg);border-radius:var(--r);padding:44px 48px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap}
+.final-box h2{margin-top:12px}
+
+/* Footer */
+footer{border-top:1px solid var(--line)}
+.foot{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:26px 0 30px;flex-wrap:wrap;font-size:15px;color:var(--text)}
+.foot div{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.foot a{color:var(--petrol)}
+
+@media (max-width:960px){
+  nav{display:none}
+  .head .btn{margin-left:auto}
+  .hero{grid-template-columns:1fr;gap:40px;padding:48px 0}
+  .visual{max-width:520px}
+  .intro,.why .wrap,.faq{grid-template-columns:1fr;gap:24px}
+  .aud{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr 1fr}
+  section.block{padding:60px 0}
+  .why .wrap{padding:60px 0}
+}
+@media (max-width:560px){
+  body{font-size:16px}
+  .wrap{width:calc(100% - 36px)}
+  .head{height:66px}
+  .head .btn{display:none}
+  .lead{font-size:18px}
+  .steps{grid-template-columns:1fr}
+  .map{height:300px}
+  .ring{width:220px;height:220px}
+  .center{width:124px;height:124px}
+  .center strong{font-size:15px}
+  .node{font-size:14px;padding:9px 11px}
+  .final-box{padding:30px 24px}
+}
 </style>
 </head>
 <body>
 
-<header><div class="wrap"><a class="logo" href="#" aria-label="TIMMAP">
-  <svg width="34" height="34" viewBox="5 5 110 110" aria-hidden="true"><rect x="10" y="10" width="100" height="100" rx="14" fill="#fff" stroke="#132330" stroke-width="6"/><line x1="60" y1="14" x2="60" y2="106" stroke="#132330" stroke-width="2.5" stroke-dasharray="4 5" opacity=".45"/><line x1="14" y1="60" x2="106" y2="60" stroke="#132330" stroke-width="2.5" stroke-dasharray="4 5" opacity=".45"/><circle cx="36" cy="78" r="9" fill="#1F6F78"/><circle cx="52" cy="40" r="9" fill="#1F6F78"/><circle cx="74" cy="72" r="9" fill="#D9822B"/><path d="M80 66 L92 34" stroke="#D9822B" stroke-width="5" stroke-dasharray="6 5" fill="none" stroke-linecap="round"/><path d="M85 34 L93 30 L95 39" stroke="#D9822B" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<header>
+  <div class="wrap head">
+    <a class="logo" href="#inizio" aria-label="TIMMAP">
+      <svg width="34" height="34" viewBox="5 5 110 110" aria-hidden="true"><rect x="10" y="10" width="100" height="100" rx="14" fill="#fff" stroke="#132330" stroke-width="6"/><line x1="60" y1="14" x2="60" y2="106" stroke="#132330" stroke-width="2.5" stroke-dasharray="4 5" opacity=".45"/><line x1="14" y1="60" x2="106" y2="60" stroke="#132330" stroke-width="2.5" stroke-dasharray="4 5" opacity=".45"/><circle cx="36" cy="78" r="9" fill="#1F6F78"/><circle cx="52" cy="40" r="9" fill="#1F6F78"/><circle cx="74" cy="72" r="9" fill="#D9822B"/><path d="M80 66 L92 34" stroke="#D9822B" stroke-width="5" stroke-dasharray="6 5" fill="none" stroke-linecap="round"/><path d="M85 34 L93 30 L95 39" stroke="#D9822B" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
   <svg height="17" viewBox="0 -31.5 183 32" aria-hidden="true"><path d="M10.032 0.0V-25.52H1.056V-30.799999999999997H24.816V-25.52H15.84V0.0Z M31.416 0.0V-30.799999999999997H37.224000000000004V0.0Z M45.672 0.0V-30.799999999999997H56.452L61.775999999999996 -3.96H62.568L67.892 -30.799999999999997H78.672V0.0H73.03999999999999V-26.532H72.24799999999999L66.968 0.0H57.376L52.096000000000004 -26.532H51.304V0.0Z M87.12 0.0V-30.799999999999997H97.9L103.224 -3.96H104.016L109.34 -30.799999999999997H120.12V0.0H114.488V-26.532H113.696L108.41600000000001 0.0H98.82400000000001L93.54400000000001 -26.532H92.75200000000001V0.0Z M126.45600000000002 0.0 134.55200000000002 -30.799999999999997H144.67200000000003L152.76800000000003 0.0H146.78400000000002L145.11200000000002 -6.776H134.11200000000002L132.44000000000003 0.0ZM135.47600000000003 -12.144H143.74800000000002L140.008 -27.148H139.216Z M159.104 0.0V-30.799999999999997H171.776Q174.68 -30.799999999999997 176.90200000000002 -29.634Q179.12400000000002 -28.468 180.37800000000001 -26.356Q181.632 -24.244 181.632 -21.34V-20.724Q181.632 -17.863999999999997 180.334 -15.729999999999999Q179.036 -13.596 176.81400000000002 -12.43Q174.592 -11.264 171.776 -11.264H164.912V0.0ZM164.912 -16.544H171.204Q173.27200000000002 -16.544 174.548 -17.688Q175.824 -18.831999999999997 175.824 -20.811999999999998V-21.252Q175.824 -23.232 174.548 -24.375999999999998Q173.27200000000002 -25.52 171.204 -25.52H164.912Z" fill="#132330"/></svg>
-</a></div></header>
+    </a>
+    <nav aria-label="Sezioni">
+      <a href="#a-chi">A chi si rivolge</a>
+      <a href="#ricerca">La ricerca</a>
+      <a href="#domande">Cosa ti chiediamo</a>
+    </nav>
+    <a class="btn small" href="https://tally.so/r/8NZ6qk" target="_blank" rel="noopener">Partecipa <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+  </div>
+</header>
 
-<main class="wrap">
-  <section class="hero">
-    <p class="eyebrow">Ricerca · decisioni sui team</p>
-    <h1>Su che cosa si basano le decisioni sui team?</h1>
-    <p class="lead">Stiamo raccogliendo l'esperienza di chi prende o segue da vicino decisioni sui team: chi inserire, chi nominare responsabile, come comporre o riorganizzare un gruppo, quando sostituire qualcuno. Vogliamo capire su che cosa si basano queste decisioni, quando emergono le difficoltà e che cosa sarebbe stato utile sapere prima.</p>
-    <p class="lead">La tua esperienza contribuirà a capire quali difficoltà nella gestione dei team richiedono davvero nuove soluzioni e quali vengono già affrontate efficacemente dalle aziende.</p>
-    <ul class="meta">
-      <li>Circa 5 minuti</li>
-      <li>Questionario prevalentemente a scelta multipla</li>
-    </ul>
-    <a class="btn" href="https://tally.so/r/8NZ6qk">Partecipa alla ricerca</a>
-  </section>
+<main id="inizio">
+  <section class="wrap hero">
+    <div>
+      <span class="label">Ricerca sulle decisioni sui team</span>
+      <h1>Su che cosa si basano le decisioni sui team?</h1>
+      <p class="lead">Quando scegli chi inserire, a chi affidare una responsabilità o come riorganizzare un gruppo, su quali informazioni ti basi?</p>
+      <p class="lead sub">Partiamo dall'esperienza di chi queste decisioni le prende o le segue da vicino.</p>
+      <div class="actions">
+        <a class="btn" href="https://tally.so/r/8NZ6qk" target="_blank" rel="noopener">Partecipa alla ricerca <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+        <a class="more" href="#ricerca">Perché questa ricerca ↓</a>
+      </div>
+      <div class="meta">
+        <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Circa 5 minuti</span>
+        <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6m-6 4h6m-6 4h4"/></svg> Prevalentemente a scelta multipla</span>
+      </div>
+    </div>
 
-  <section>
-    <h2>A chi è rivolta</h2>
-    <p class="sub">A chi prende o segue direttamente decisioni sui team, in qualsiasi ruolo: proprietà, direzione, responsabili di funzione, HR, investitori e consulenti.</p>
-    <div class="moments">
-      <article class="moment">
-        <p class="m-tag">Persone</p>
-        <p class="m-q">Decidi chi inserire, chi promuovere o chi nominare responsabile?</p>
-      </article>
-      <article class="moment">
-        <p class="m-tag">Team</p>
-        <p class="m-q">Componi o riorganizzi gruppi di lavoro, ruoli e responsabilità?</p>
-      </article>
-      <article class="moment">
-        <p class="m-tag">Uscite e sostituzioni</p>
-        <p class="m-q">Valuti quando spostare, sostituire o lasciar andare qualcuno?</p>
-      </article>
-      <article class="moment">
-        <p class="m-tag">Cambiamenti</p>
-        <p class="m-q">Segui un team durante una riorganizzazione, un'acquisizione, un cambio di guida o una nuova apertura?</p>
-      </article>
+    <div class="visual" role="img" aria-label="Una decisione su un team può basarsi su esperienza, dati, contesto e intuizione. Quali contano nella tua esperienza?">
+      <div class="map">
+        <div class="ring"></div>
+        <svg class="lines" viewBox="0 0 400 330" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M80 50 200 165 330 75M80 270 200 165 330 290" fill="none" stroke="#B8C4CC" stroke-width="1.5" stroke-dasharray="4 6"/>
+        </svg>
+        <div class="node n1"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m16 8-3 5-5 3 3-5 5-3Z"/></svg> L'esperienza</div>
+        <div class="node n2"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10m6 10V4m6 16v-7m4 7H3"/></svg> I dati</div>
+        <div class="center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2m1-15a3 3 0 0 1 0 6m2 4a5 5 0 0 1 3 5"/></svg><strong>La decisione<br>sul team</strong></div>
+        <div class="node n3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 4-6 2v14l6-2 6 2 6-2V4l-6 2-6-2Zm0 0v14m6-12v14"/></svg> Il contesto</div>
+        <div class="node n4"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v4m0 10v4M3 12h4m10 0h4M6 6l2.5 2.5m7 7L18 18M6 18l2.5-2.5m7-7L18 6"/></svg> L'intuizione</div>
+      </div>
+      <p class="caption">Quali contano nella tua esperienza?</p>
     </div>
   </section>
 
-  <section class="about">
-    <div class="about-box">
-      <p class="about-k">Perché questa ricerca</p>
-      <p>Stiamo sviluppando <b>TIMMAP</b>, un metodo di analisi organizzativa, e vogliamo verificare quanto risponda alle esigenze reali delle aziende.</p>
-      <p>Per questo ci interessa conoscere la tua esperienza: quali difficoltà hai incontrato, come sono state affrontate e quali informazioni sarebbero state utili per prendere decisioni.</p>
-      <p>Nella parte finale del questionario ti presenteremo brevemente TIMMAP e ti chiederemo di valutarne la possibile utilità.</p>
+  <div class="roles">
+    <div class="wrap">
+      <span class="roles-t">Per chi prende o segue le decisioni</span>
+      <ul>
+        <li>Proprietà e direzione</li>
+        <li>Responsabili di funzione</li>
+        <li>HR</li>
+        <li>Investitori</li>
+        <li>Consulenti</li>
+      </ul>
+    </div>
+  </div>
+
+  <section class="block wrap" id="a-chi">
+    <div class="intro">
+      <div>
+        <span class="label">A chi si rivolge</span>
+        <h2>Se nel tuo lavoro prendi o segui queste decisioni, ci interessa la tua esperienza.</h2>
+      </div>
+      <p>Non conta il ruolo: conta aver preso, o seguito direttamente, una decisione su un gruppo di lavoro.</p>
+    </div>
+    <div class="aud">
+      <article><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2m1-15a3 3 0 0 1 0 6m2 4a5 5 0 0 1 3 5"/></svg></span><div><h3>Inserimenti e nomine</h3><p>Chi inserire, chi promuovere, chi nominare responsabile.</p></div></article>
+      <article><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5Zm-9 9 9 5 9-5m-18 5 9 5 9-5"/></svg></span><div><h3>Composizione dei team</h3><p>Come distribuire persone, ruoli e responsabilità.</p></div></article>
+      <article><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h13m-4-4 4 4-4 4M17 17H4m4 4-4-4 4-4"/></svg></span><div><h3>Spostamenti e sostituzioni</h3><p>Quando spostare, sostituire o lasciar andare qualcuno.</p></div></article>
+      <article><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9a8 8 0 0 1 14-3l2 3M4 4v5h5m11 6a8 8 0 0 1-14 3l-2-3m16 5v-5h-5"/></svg></span><div><h3>Cambiamenti organizzativi</h3><p>Come gestire un team durante una riorganizzazione, un'acquisizione, un cambio di guida o una nuova apertura.</p></div></article>
     </div>
   </section>
 
-  <section>
-    <h2>Cosa ti chiediamo</h2>
+  <section class="why" id="ricerca">
+    <div class="wrap">
+      <div>
+        <span class="label">Perché questa ricerca</span>
+        <h2>Non cerchiamo conferme.<br><span>Cerchiamo la tua esperienza.</span></h2>
+      </div>
+      <div>
+        <p>Stiamo sviluppando <b>TIMMAP</b>, un metodo di analisi organizzativa, e vogliamo verificare quanto risponda alle esigenze reali delle aziende.</p>
+        <p>Per questo ci interessa conoscere la tua esperienza: quali difficoltà hai incontrato, come sono state affrontate e quali informazioni sarebbero state utili per prendere decisioni. Ci interessano anche le soluzioni che <b>funzionano già</b>.</p>
+        <div class="note"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m16 8-3 5-5 3 3-5 5-3Z"/></svg><span>Prima la tua esperienza, poi il metodo: TIMMAP viene presentato solo nella parte finale del questionario, con una domanda sulla sua possibile utilità.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block wrap" id="domande">
+    <div class="intro">
+      <div>
+        <span class="label">Cosa ti chiediamo</span>
+        <h2>Una decisione concreta e il tuo punto di vista.</h2>
+      </div>
+    </div>
     <ol class="steps">
-      <li><b>Il tuo contesto</b><span>Ruolo, azienda e persone che coordini</span></li>
-      <li><b>Le decisioni</b><span>Una decisione su un team e come è andata</span></li>
-      <li><b>Come valutate</b><span>Che cosa è più difficile capire di un team</span></li>
-      <li><b>Un parere</b><span>Sulla possibile utilità di TIMMAP</span></li>
+      <li><h3>Il tuo contesto</h3><p>Il tuo ruolo, l'azienda e quante persone coordini.</p></li>
+      <li><h3>Una decisione reale</h3><p>Una decisione su un team e come è andata.</p></li>
+      <li><h3>Cosa è difficile valutare</h3><p>Che cosa fate più fatica a capire di un team.</p></li>
+      <li><h3>Il tuo parere</h3><p>Una breve presentazione di TIMMAP e la sua possibile utilità.</p></li>
     </ol>
+    <p class="rnote">La tua esperienza contribuirà a capire quali difficoltà nella gestione dei team richiedono davvero nuove soluzioni e quali vengono già affrontate efficacemente dalle aziende.</p>
   </section>
 
-  <section class="cta">
-    <a class="btn" href="https://tally.so/r/8NZ6qk">Partecipa alla ricerca</a>
+  <section class="block wrap faq">
+    <div>
+      <span class="label">Prima di iniziare</span>
+      <h2>Qualche domanda?</h2>
+    </div>
+    <div>
+      <details><summary>Devo essere un responsabile HR? <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>No. La ricerca è rivolta a chi prende o segue direttamente decisioni sui team: proprietà, direzione, responsabili di funzione, HR, investitori e consulenti. Conta l'esperienza concreta, non il titolo.</p></details>
+      <details><summary>Devo già conoscere TIMMAP? <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>No. Il questionario parte dalla tua esperienza. Solo nella parte finale trovi una breve presentazione del metodo e una domanda sulla sua possibile utilità.</p></details>
+      <details><summary>È utile anche un'esperienza andata bene? <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>Sì. Ci interessa capire sia dove emergono le difficoltà sia quali decisioni vengono già affrontate bene.</p></details>
+    </div>
+  </section>
+
+  <section class="wrap final">
+    <div class="final-box">
+      <div>
+        <span class="label">La ricerca</span>
+        <h2>Raccontaci come prendi le decisioni sui team.</h2>
+      </div>
+      <a class="btn" href="https://tally.so/r/8NZ6qk" target="_blank" rel="noopener">Partecipa alla ricerca <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+    </div>
   </section>
 </main>
 
-<footer><div class="wrap">TIMMAP · Ricerca in corso · <a href="privacy.html">Informativa privacy</a></div></footer>
+<footer>
+  <div class="wrap foot">
+    <div><a class="logo" href="#inizio" aria-label="TIMMAP"><svg width="34" height="34" viewBox="5 5 110 110" aria-hidden="true"><rect x="10" y="10" width="100" height="100" rx="14" fill="#fff" stroke="#132330" stroke-width="6"/><line x1="60" y1="14" x2="60" y2="106" stroke="#132330" stroke-width="2.5" stroke-dasharray="4 5" opacity=".45"/><line x1="14" y1="60" x2="106" y2="60" stroke="#132330" stroke-width="2.5" stroke-dasharray="4 5" opacity=".45"/><circle cx="36" cy="78" r="9" fill="#1F6F78"/><circle cx="52" cy="40" r="9" fill="#1F6F78"/><circle cx="74" cy="72" r="9" fill="#D9822B"/><path d="M80 66 L92 34" stroke="#D9822B" stroke-width="5" stroke-dasharray="6 5" fill="none" stroke-linecap="round"/><path d="M85 34 L93 30 L95 39" stroke="#D9822B" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <svg height="17" viewBox="0 -31.5 183 32" aria-hidden="true"><path d="M10.032 0.0V-25.52H1.056V-30.799999999999997H24.816V-25.52H15.84V0.0Z M31.416 0.0V-30.799999999999997H37.224000000000004V0.0Z M45.672 0.0V-30.799999999999997H56.452L61.775999999999996 -3.96H62.568L67.892 -30.799999999999997H78.672V0.0H73.03999999999999V-26.532H72.24799999999999L66.968 0.0H57.376L52.096000000000004 -26.532H51.304V0.0Z M87.12 0.0V-30.799999999999997H97.9L103.224 -3.96H104.016L109.34 -30.799999999999997H120.12V0.0H114.488V-26.532H113.696L108.41600000000001 0.0H98.82400000000001L93.54400000000001 -26.532H92.75200000000001V0.0Z M126.45600000000002 0.0 134.55200000000002 -30.799999999999997H144.67200000000003L152.76800000000003 0.0H146.78400000000002L145.11200000000002 -6.776H134.11200000000002L132.44000000000003 0.0ZM135.47600000000003 -12.144H143.74800000000002L140.008 -27.148H139.216Z M159.104 0.0V-30.799999999999997H171.776Q174.68 -30.799999999999997 176.90200000000002 -29.634Q179.12400000000002 -28.468 180.37800000000001 -26.356Q181.632 -24.244 181.632 -21.34V-20.724Q181.632 -17.863999999999997 180.334 -15.729999999999999Q179.036 -13.596 176.81400000000002 -12.43Q174.592 -11.264 171.776 -11.264H164.912V0.0ZM164.912 -16.544H171.204Q173.27200000000002 -16.544 174.548 -17.688Q175.824 -18.831999999999997 175.824 -20.811999999999998V-21.252Q175.824 -23.232 174.548 -24.375999999999998Q173.27200000000002 -25.52 171.204 -25.52H164.912Z" fill="#132330"/></svg></a><span>Ricerca in corso</span></div>
+    <div><a href="privacy.html">Informativa privacy</a><span>© 2026 TIMMAP</span></div>
+  </div>
+</footer>
 </body>
 </html>
